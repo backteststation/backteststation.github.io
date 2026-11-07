@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pay with Crypto</title>
+<meta name="description" content="Pay for extra Backtest Station tests in USDT or TON on the TON network.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://backteststation.github.io/pay.html">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .pay, .pay #form:not([hidden]) { display: grid; gap: 16px; max-width: 640px; }
+  .pay .tabs { display: flex; gap: 8px; }
+  .pay .tabs button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); font: inherit; font-weight: 600; cursor: pointer; }
+  .pay .tabs button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+  .pay .box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
+    display: grid; gap: 14px; }
+  .pay .row { display: grid; gap: 4px; min-width: 0; }
+  .pay .row b { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .pay .val { display: flex; gap: 8px; align-items: center; min-width: 0; }
+  .pay code { overflow-wrap: anywhere; font-size: .95rem; background: var(--surface-2); padding: 6px 8px; border-radius: 8px;
+    flex: 1; min-width: 0; }
+  .pay .copy { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); font: inherit; font-size: .85rem; cursor: pointer; }
+  .pay .qr { justify-self: center; background: #fff; padding: 10px; border-radius: 12px; line-height: 0; }
+  .pay .amount { font-size: 1.6rem; font-weight: 700; }
+  .pay .warn { background: var(--mid-bg); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .pay .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+</style>
+</head>
+<body>
+<header id="top"></header>
+<main class="wrap">
+  <div class="page-head">
+    <h1>Pay with crypto</h1>
+    <p>Extra tests at our launch price, paid in <b>USDT</b> or <b>TON</b> on the TON network. Your tests unlock in our
+      Telegram bot a few minutes after the payment arrives.</p>
+  </div>
+  <section class="pay" id="pay">
+    <p id="nocode" hidden>This page needs a payment code. Open <a href="https://t.me/BacktestStationBot">our Telegram bot</a>,
+      go to <b>Pricing</b> and choose a crypto option: the bot gives you a code and a link back here.</p>
+    <div id="form" hidden>
+      <div class="tabs" role="group" aria-label="Currency">
+        <button type="button" data-cur="USDT" aria-pressed="true">USDT</button>
+        <button type="button" data-cur="TON" aria-pressed="false">TON</button>
+      </div>
+      <div class="box">
+        <div class="row"><b>Amount</b><div class="amount" id="amt"></div></div>
+        <div class="row"><b>Send to (TON network)</b><div class="val"><code id="addr"></code>
+          <button class="copy" type="button" data-copy="addr">Copy</button></div></div>
+        <div class="row"><b>Comment / memo (required)</b><div class="val"><code id="code"></code>
+          <button class="copy" type="button" data-copy="code">Copy</button></div></div>
+        <div class="warn">Put the code in the <b>comment</b> of the transfer. Without it we cannot tell the payment is yours.
+          Use the <b>TON network</b> only; USDT on other networks (TRON, Ethereum, BNB) sent here is lost.</div>
+        <div class="qr" id="qr"></div>
+        <div class="btns">
+          <a class="btn" id="open-tk">Open in Tonkeeper</a>
+          <a class="btn ghost" id="open-ton">Open in another TON wallet</a>
+        </div>
+      </div>
+      <p class="muted small">After paying, go back to the bot; it tells you when the tests are unlocked, usually within a few
+        minutes. The code is valid for 3 days. Payments are non-refundable; a paid test we could not run stays on your account.
+        Problem? Write <b>/paysupport</b> in the bot.</p>
+    </div>
+  </section>
+</main>
+<footer id="foot"></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+(function () {
+  var WALLET = "UQCeWGmBTdD31zf47aDlb-iQreaqJblx98ihAdj87cEzPNHW";
+  var USDT = "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs";
+  var p = new URLSearchParams(location.search);
+  var code = (p.get("c") || "").toUpperCase(), usd = parseFloat(p.get("u")), ton = parseFloat(p.get("t")), n = p.get("n");
+  if (!/^BT[A-Z2-9]{5}$/.test(code) || !(usd > 0)) { document.getElementById("nocode").hidden = false; return; }
+  document.getElementById("form").hidden = false;
+  document.getElementById("addr").textContent = WALLET;
+  document.getElementById("code").textContent = code;
+  var tonBtn = document.querySelector('[data-cur="TON"]');
+  if (!(ton > 0)) tonBtn.disabled = true;
+  var qr = null;
+  function show(cur) {
+    document.querySelectorAll(".tabs button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.cur === cur); });
+    var q, amt;
+    if (cur === "USDT") {
+      amt = usd + " USDT";
+      q = "transfer/" + WALLET + "?jetton=" + USDT + "&amount=" + Math.round(usd * 1e6) + "&text=" + code;
+    } else {
+      amt = ton.toFixed(2) + " TON";
+      q = "transfer/" + WALLET + "?amount=" + Math.round(ton * 1e9) + "&text=" + code;
+    }
+    document.getElementById("amt").textContent = amt + (n ? " · " + n + (n === "1" ? " test" : " tests") : "");
+    document.getElementById("open-tk").href = "https://app.tonkeeper.com/" + q;
+    document.getElementById("open-ton").href = "ton://" + q;
+    var box = document.getElementById("qr");
+    box.innerHTML = "";
+    if (window.QRCode) qr = new QRCode(box, { text: "ton://" + q, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
+  }
+  document.querySelectorAll(".tabs button").forEach(function (b) { b.onclick = function () { show(b.dataset.cur); }; });
+  document.querySelectorAll(".copy").forEach(function (b) {
+    b.onclick = function () {
+      var t = document.getElementById(b.dataset.copy).textContent;
+      (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () {
+        b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500);
+      }, function () {
+        var r = document.createRange(); r.selectNodeContents(document.getElementById(b.dataset.copy));
+        var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      });
+    };
+  });
+  show("USDT");
+})();
+</script>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
