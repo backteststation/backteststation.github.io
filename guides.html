@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trading Bot Backtest Guides</title>
+<meta name="description" content="How to spot a fake backtest, what lookahead bias is, and how to verify a trading bot's track record before you pay for it.">
+<link rel="canonical" href="https://backteststation.github.io/guides.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Backtest Station">
+<meta property="og:title" content="Trading Bot Backtest Guides">
+<meta property="og:description" content="How to spot a fake backtest, what lookahead bias is, and how to verify a trading bot's track record before you pay for it.">
+<meta property="og:url" content="https://backteststation.github.io/guides.html">
+<meta property="og:image" content="https://backteststation.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="top"></header>
+<main class="wrap guide">
+  <div class="page-head">
+    <h1>Guides</h1>
+    <p>Short, practical answers to the questions people ask before trusting a trading bot with real money.</p>
+    <ul class="toc">
+      <li><a href="#fake-backtest">7 signs a backtest is too good to be true</a></li>
+      <li><a href="#lookahead">What is lookahead bias, and why it fools so many bots</a></li>
+      <li><a href="#verify">How to check a seller's track record before you pay</a></li>
+      <li><a href="#tools">Tools worth knowing</a></li>
+    </ul>
+  </div>
+
+  <article id="fake-backtest">
+    <h2>7 signs a backtest is too good to be true</h2>
+    <p>Most bot sellers are not lying on purpose. Their backtest simply was not built to find problems. These are the signs
+      we see most often.</p>
+    <ol>
+      <li><b>No fees, or tiny fees.</b> A bot that trades often can lose its whole edge to fees. Ask what fee per trade was used;
+        on Binance spot it is about 0.1% per side.</li>
+      <li><b>A short, hand-picked period.</b> Three months of a bull market makes almost any long-only bot look brilliant. Ask
+        for results across a rise, a fall and a sideways market.</li>
+      <li><b>A perfectly smooth equity curve.</b> Real trading has bad weeks. A curve with no drawdowns usually means a mistake,
+        or settings tuned to fit the past exactly.</li>
+      <li><b>Very few trades.</b> With 20 trades, luck and skill look the same. Under about 100 trades, treat any result as a hint.</li>
+      <li><b>Win rate is the headline.</b> A 90% win rate means little if the losing 10% wipes out the rest. Look at profit factor
+        and maximum drawdown instead.</li>
+      <li><b>No comparison with simply holding.</b> If holding the same coins made more money, the bot added risk, not value.</li>
+      <li><b>It only works with one exact setting.</b> If changing one number a little breaks it, it was fitted to the past.</li>
+    </ol>
+  </article>
+
+  <article id="lookahead">
+    <h2>What is lookahead bias, and why it fools so many bots</h2>
+    <p>Lookahead bias means the strategy uses information it could not have had at the moment it traded. The classic example:
+      deciding to buy at the open of a candle using that candle's close. In a backtest the close is already in the data, so
+      the decision looks brilliant. Live, the close is still in the future, and the edge disappears.</p>
+    <p>It hides in ordinary code: indicators calculated over the whole dataset at once, signals shifted the wrong way, or
+      "repainting" indicators on TradingView that redraw their past values. The strategy's author usually has no idea.</p>
+    <p>The test is simple in principle: run the strategy again with the future cut off, candle by candle, and see whether its
+      signals change. If they do, it is peeking. One of the free strategies in our <a href="showcase.html">showcase</a>
+      looked profitable over five years until this check caught it.</p>
+  </article>
+
+  <article id="verify">
+    <h2>How to check a seller's track record before you pay</h2>
+    <ol>
+      <li><b>Ask for the trade list, not screenshots.</b> Every trade with its coin, side, entry and exit time and price. A seller
+        with real results can export it from the exchange in a minute.</li>
+      <li><b>Check that every price really traded.</b> An entry at a price the market never reached that minute is impossible.
+        We check each price against real exchange data, down to the second when the times have seconds.</li>
+      <li><b>Add the real costs.</b> Fees, funding for futures, and some slippage. Claimed profits are almost always before costs.</li>
+      <li><b>Look at the whole period.</b> Ask for every trade since the bot started, not a selection.</li>
+      <li><b>Prefer verifiable reports.</b> A report anyone can check, like ours with its <a href="verify.html">QR code</a>, cannot
+        be quietly edited.</li>
+    </ol>
+    <p><a class="btn" data-bot href="#">Check a track record free on Telegram</a></p>
+  </article>
+
+  <article id="tools">
+    <h2>Tools worth knowing</h2>
+    <p>We are not the only way to check a bot. These are good tools for different jobs:</p>
+    <ul>
+      <li><a href="https://www.myfxbook.com/" rel="noopener">Myfxbook</a> and <a href="https://www.fxblue.com/" rel="noopener">FX Blue</a>:
+        follow a live Forex account and confirm its history matches the broker. Great for live results; they do not backtest.</li>
+      <li><a href="https://www.freqtrade.io/en/stable/lookahead-analysis/" rel="noopener">Freqtrade lookahead analysis</a>: if you
+        write Freqtrade strategies yourself, run it on every strategy before trusting a backtest.</li>
+      <li><a href="https://www.tradingview.com/" rel="noopener">TradingView strategy tester</a>: quick first look at a Pine strategy.
+        Watch out for repainting and set realistic fees.</li>
+    </ul>
+    <p>Where we fit: an independent second opinion, when you did not write the bot yourself, or when you want a report others
+      can verify.</p>
+  </article>
+  <p class="muted small">These guides explain how backtests work. They are not investment advice.</p>
+</main>
+<footer id="foot"></footer>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

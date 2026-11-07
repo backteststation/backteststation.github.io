@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backtest Station: independent crypto bot backtests and track-record checks</title>
+<meta name="description" content="Independent backtests and track-record checks for crypto trading bots. Is your bot's edge real?">
+<link rel="canonical" href="https://backteststation.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Backtest Station">
+<meta property="og:title" content="Backtest Station: independent crypto bot backtests and track-record checks">
+<meta property="og:description" content="Independent backtests and track-record checks for crypto trading bots. Is your bot's edge real?">
+<meta property="og:url" content="https://backteststation.github.io/">
+<meta property="og:image" content="https://backteststation.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="top"></header>
+<main>
+  <div class="wrap hero">
+    <div>
+    <span class="kicker">Free while we launch</span>
+    <h1>Is your bot's edge real?</h1>
+    <p class="lead">Independent backtests and track-record checks for crypto trading bots. We run your strategy on real
+      Binance history, with real fees, and tell you plainly whether the profit holds up.</p>
+    <ul class="pills"><li>Any coins you choose</li><li>Down to 1-second candles</li><li>Any exchange</li><li>Best, normal and worst case</li>
+      <li>PASS · CAUTION · FAIL</li><li>Verifiable with a QR code</li></ul>
+    <div class="ctas"><a class="btn" data-bot href="#">Test my bot on Telegram</a>
+      <a class="btn ghost" href="showcase.html">See tested bots</a></div>
+    </div>
+    <img class="mascot" src="assets/mascot.svg" alt="Our technician checking a trading bot with a magnifying glass" width="300" height="254">
+  </div>
+
+  <section class="wrap">
+    <h2>What we check</h2>
+    <div class="grid g3">
+      <div class="box"><h3>Strategy backtest</h3><p class="muted">Send your Freqtrade, Pine Script or other strategy. We test it on
+        years of minute data across 20+ coins, with exchange fees and a fee stress test.</p></div>
+      <div class="box"><h3>Track-record check</h3><p class="muted">Got a list of trades someone claims to have made? We match every
+        entry and exit against real prices, down to the second, and flag prices that never happened.</p></div>
+      <div class="box"><h3>Future-data check</h3><p class="muted">Many strategies look great only because they peek at candles they
+        could not have seen live. We run a lookahead test and say so when they do.</p></div>
+      <div class="box"><h3>Your coins, to the second</h3><p class="muted">Test on our 20 main coins, or name the coins you
+        trade. Want more detail? We can replay your strategy on 1-second candles. Custom coins and 1-second runs take longer.</p></div>
+      <div class="box"><h3>Three outcomes, not one</h3><p class="muted">Real trading is never as clean as a backtest. Each report
+        shows an optimistic, a normal and a pessimistic result, with what moves them: fills, slippage, fees and the market.</p></div>
+      <div class="box"><h3>Your exchange, not just Binance</h3><p class="muted">Trading on a local exchange? Prices there can run
+        at a premium or a few seconds behind the big markets. Tell us which exchange: we fetch its price history where we can,
+        or work from an export you send, and test against the prices you really trade at.</p></div>
+      <div class="box"><h3>A report nobody can fake</h3><p class="muted">Every report carries a QR code and a check link. Anyone you
+        show it to can confirm on our site that the verdict and numbers are the ones we issued.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>How it works</h2>
+    <div class="grid g3">
+      <div class="box"><div class="step-n">1</div><h3>Open the bot</h3><p class="muted">Start <a data-bot href="#">@BacktestStationBot</a>
+        on Telegram. No sign-up, no password.</p></div>
+      <div class="box"><div class="step-n">2</div><h3>Send your file</h3><p class="muted">Pick the test type and period, then send the
+        strategy or trade history. Choose whether the result may be public, anonymous or private.</p></div>
+      <div class="box"><div class="step-n">3</div><h3>Get the report</h3><p class="muted">A PDF with an Edge Score, charts, results by year
+        and market condition, and every red flag we found.</p></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>From the showcase</h2>
+    <p class="muted">Popular free strategies, tested as-is with their default settings.
+      <a href="showcase.html">See all results and how to read them →</a></p>
+    <div id="stats" class="stats"></div>
+    <div id="cards" class="cards" data-limit="3"></div>
+  </section>
+
+  <section class="wrap">
+    <p class="note"><b>Your own bot is a different story.</b> Paid, private or carefully tuned strategies are exactly what we are here
+      for. Find out where yours stands before you trust it with real money: <a data-bot href="#">test it free on Telegram</a>.</p>
+  </section>
+
+  <section class="wrap">
+    <h2>What users say</h2>
+    <div id="reviews"></div>
+  </section>
+</main>
+<footer id="foot"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

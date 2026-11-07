@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tested Bots Showcase</title>
+<meta name="description" content="Free open-source crypto trading strategies, backtested as-is by Backtest Station.">
+<link rel="canonical" href="https://backteststation.github.io/showcase.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Backtest Station">
+<meta property="og:title" content="Tested Bots Showcase">
+<meta property="og:description" content="Free open-source crypto trading strategies, backtested as-is by Backtest Station.">
+<meta property="og:url" content="https://backteststation.github.io/showcase.html">
+<meta property="og:image" content="https://backteststation.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="top"></header>
+<main class="wrap">
+  <div class="page-head">
+    <h1>Free community strategies, tested as-is</h1>
+    <p>These are popular open-source bots that anyone can download for free, run with their default settings on 20 coins on
+      Binance spot. Most free strategies are written as examples, not as finished products, and the numbers show why testing
+      matters.</p>
+  </div>
+  <div id="stats" class="stats"></div>
+  <div class="note" style="margin-bottom:24px"><b>Your own bot is different.</b> Paid, private or tuned strategies are exactly what we
+    are here for. Send yours and find out where it stands, before you trust it with real money.
+    <a data-bot href="#">Test your own bot free →</a></div>
+
+  <div id="cards" class="cards"></div>
+
+  <h2>How to read a card</h2>
+  <div class="grid g2">
+    <div class="box"><h3>Edge Score (0–100)</h3><p class="muted">Combines profit after fees, consistency across years, drawdown, number
+      of trades and whether the strategy beat simply holding the same coins. <a href="methodology.html">Full method</a>.</p></div>
+    <div class="box"><h3>Labels</h3><p class="muted"><span class="badge b-good">Edge found</span> 70+ ·
+      <span class="badge b-mid">Inconclusive</span> 40–69 · <span class="badge b-bad">No edge found in this test</span> under 40 ·
+      <span class="badge b-bias">Lookahead bias detected</span> the backtest relies on future data.</p></div>
+  </div>
+  <p class="muted small" style="margin-top:16px">All tests: 1,000 USDT, up to 5 trades at once, 0.1% fee per side, Binance spot data.
+    Results describe one set of settings over one period. Other settings, coins or periods can give different results. Nothing
+    here is a recommendation to use or avoid any strategy.</p>
+
+  <h2 id="authors">For strategy authors</h2>
+  <div class="box">
+    <p>We test free, public strategies with the settings they ship with. If you wrote one of these and think other settings,
+      coins or timeframes represent it better, send them to <a data-bot href="#">@BacktestStationBot</a>. We will retest it free
+      and update the report. You can also ask us to remove a result.</p>
+    <p><b>Removal needs proof of ownership.</b> So that nobody can take down a result they do not own, we ask the author to
+      show they control the strategy: for example, a short note or commit with a code we give you in the strategy's own
+      repository, a message from the account that publishes it, or, for a paid bot, from the official sales page or channel.
+      Retest requests with better settings are open to anyone.</p>
+    <p class="muted">Paid or commercial bots are only shown here with the owner's consent, or when the customer who ordered the
+      test chose to make it public. Otherwise they stay private or anonymous.</p>
+  </div>
+</main>
+<footer id="foot"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backtest Station FAQ</title>
+<meta name="description" content="Questions about Backtest Station: privacy, file types, turnaround and results.">
+<link rel="canonical" href="https://backteststation.github.io/faq.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Backtest Station">
+<meta property="og:title" content="Backtest Station FAQ">
+<meta property="og:description" content="Questions about Backtest Station: privacy, file types, turnaround and results.">
+<meta property="og:url" content="https://backteststation.github.io/faq.html">
+<meta property="og:image" content="https://backteststation.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="top"></header>
+<main class="wrap">
+  <div class="page-head"><h1>Questions</h1></div>
+  <details open><summary>Do I need to sign up?</summary><p>No. Your Telegram account is your account. If you like, add your phone,
+    name and email under My account in the bot: a complete profile gets 5% off once paid plans start.</p></details>
+  <details><summary>How can someone check that a report is real?</summary><p>Every report has a QR code and a report ID with a
+    code. Scan it, or enter both on our <a href="verify.html">verify page</a>, to see the verdict and numbers we issued.</p></details>
+  <details><summary>What do PASS, CAUTION and FAIL mean?</summary><p>PASS: the edge held up in this test. CAUTION: mixed results
+    or too little evidence. FAIL: no edge, or data that cannot be trusted, such as signals that use future candles or prices
+    that never traded.</p></details>
+  <details><summary>What is the test confidence percentage?</summary><p>How sure we are that the numbers are what you would
+    really have had in that period. A trade list checked to the second is close to 100%; a strategy replayed on candles is a
+    little lower. The report lists every reason. Below 85% we mark the result as indicative only.</p></details>
+  <details><summary>What can I send?</summary><p>A trade history (CSV or Excel export from an exchange or a signal channel), a
+    Freqtrade strategy (.py), a Pine Script, or other code. Forex MQL support is coming soon.</p></details>
+  <details><summary>Will my code be published?</summary><p>Never. When you order, you choose whether the result may be public (with
+    your bot's name), anonymous, or private. Only the result can be shown, not the code.</p></details>
+  <details><summary>Do you run my code with my API keys?</summary><p>No. We never ask for exchange keys. Code is read first, and if it
+    needs to run, it runs in an isolated environment without internet access or keys.</p></details>
+  <details><summary>How long does it take?</summary><p>Trade-history checks are automatic and usually ready in minutes. Strategy
+    backtests take from a few hours to two days, depending on the period. See <a href="pricing.html">turnaround</a>.</p></details>
+  <details><summary>Why do most showcase bots lose money?</summary><p>They are free example strategies, run with their default
+    settings. Many were written to show how a feature works, not to trade real money. That is exactly why testing matters,
+    and why your own tuned or paid bot deserves its own test.</p></details>
+  <details><summary>Can a good backtest guarantee profit?</summary><p>No. A backtest shows how rules would have behaved in the past.
+    Markets change. We report the past honestly; we do not predict the future.</p></details>
+  <details><summary>I wrote one of the showcase strategies. Can I respond?</summary><p>Yes. Send better settings through the bot and
+    we will retest free and update the report. Removal is possible once you show you own the strategy, for example with a
+    code we give you committed to its repository. <a href="showcase.html#authors">More</a>.</p></details>
+  <details><summary>How do I contact you?</summary><p>Message <a data-bot href="#">@BacktestStationBot</a> on Telegram. Any message
+    that is not an order reaches a person.</p></details>
+</main>
+<footer id="foot"></footer>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

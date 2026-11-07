@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verify a Report</title>
+<meta name="description" content="Check that a Backtest Station report is genuine: enter its ID and code, or scan its QR code.">
+<link rel="canonical" href="https://backteststation.github.io/verify.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Backtest Station">
+<meta property="og:title" content="Verify a Report">
+<meta property="og:description" content="Check that a Backtest Station report is genuine: enter its ID and code, or scan its QR code.">
+<meta property="og:url" content="https://backteststation.github.io/verify.html">
+<meta property="og:image" content="https://backteststation.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="top"></header>
+<main class="wrap">
+  <div class="page-head">
+    <h1>Verify a report</h1>
+    <p>Someone showed you a Backtest Station report? Scan its QR code, or type the ID and code printed next to it. If we
+      issued it, you will see the verdict and numbers we put in it.</p>
+  </div>
+  <section id="verify">
+    <form class="vf-form" autocomplete="off">
+      <label>Report ID<input name="id_" placeholder="e.g. S-01 or C-12" required></label>
+      <label>Code<input name="code" placeholder="8 characters" required></label>
+      <button class="btn" type="submit">Check</button>
+    </form>
+    <div id="verify-out"></div>
+  </section>
+  <p class="muted small">We only publish what is needed to recognise a report: never the strategy, the file or the customer's
+    identity. Private reports show as "Private client".</p>
+</main>
+<footer id="foot"></footer>
+<script src="assets/data.js"></script>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

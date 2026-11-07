@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://backteststation.github.io/sitemap.xml

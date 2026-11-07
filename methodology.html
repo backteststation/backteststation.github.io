@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backtest Station Methodology</title>
+<meta name="description" content="How Backtest Station tests trading bots: data, fees, Edge Score and lookahead checks.">
+<link rel="canonical" href="https://backteststation.github.io/methodology.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Backtest Station">
+<meta property="og:title" content="Backtest Station Methodology">
+<meta property="og:description" content="How Backtest Station tests trading bots: data, fees, Edge Score and lookahead checks.">
+<meta property="og:url" content="https://backteststation.github.io/methodology.html">
+<meta property="og:image" content="https://backteststation.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f2152">
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="top"></header>
+<main class="wrap">
+  <div class="page-head">
+    <h1>How we test</h1>
+    <p>Same data, same rules, for every bot. Here is exactly what goes into a report.</p>
+  </div>
+
+  <h2>Data</h2>
+  <div class="grid g2">
+    <div class="box"><h3>Binance history</h3><p class="muted">Futures 1-minute candles since 2020, funding rates and premium index for 40+
+      coins from Binance's public archive, topped up every 30 minutes. Spot candles at 5m to 1d for strategy backtests.</p></div>
+    <div class="box"><h3>Second-level prices</h3><p class="muted">For the last three months we also keep 1-second spot candles, so a claimed
+      trade can be checked against the exact second it was supposedly filled.</p></div>
+  </div>
+
+  <h2>Strategy backtests</h2>
+  <div class="box"><ul class="muted">
+    <li>Engine: Freqtrade backtesting, using the strategy's own ROI, stop-loss and exit rules.</li>
+    <li>Account: 1,000 USDT, up to 5 trades at once, unless the customer asks for something else.</li>
+    <li>Fees: 0.1% per side (Binance spot taker), plus a stress test at double fees.</li>
+    <li>Lookahead check: Freqtrade's lookahead analysis re-runs signals with future candles hidden. If the signals change,
+      the strategy is using information it could not have had live.</li>
+    <li>Results are split by calendar year and by market condition (BTC 30-day trend up, down or sideways).</li>
+  </ul></div>
+
+  <h2>Track-record checks</h2>
+  <div class="box"><ul class="muted">
+    <li>Each entry and exit is compared with the real 1-minute candle, and with 1-second candles when available.</li>
+    <li>A price outside the candle's range is marked impossible. A price that only fits a minute or two earlier or later is
+      marked as a timing difference. Time-zone shifts are detected automatically.</li>
+    <li>Profit is recalculated with taker fees and, for futures, the real funding payments.</li>
+  </ul></div>
+
+  <h2>Edge Score</h2>
+  <div class="tbl-wrap"><table class="tbl">
+    <tr><th>Part</th><th>Weight</th><th>What it rewards</th></tr>
+    <tr><td>Profit factor</td><td>30%</td><td>Gross profit clearly larger than gross loss, after fees</td></tr>
+    <tr><td>Consistency</td><td>20%</td><td>Profitable in most calendar years, not one lucky year</td></tr>
+    <tr><td>Return vs. drawdown</td><td>20%</td><td>Profit earned without deep losses on the way</td></tr>
+    <tr><td>Beating the market</td><td>15%</td><td>Doing better than simply holding the same coins</td></tr>
+    <tr><td>Sample size</td><td>15%</td><td>Enough trades to tell skill from luck (200+)</td></tr>
+  </table></div>
+  <p class="muted" style="margin-top:12px">If the lookahead check finds future data, the score is capped at 30. If a trade history
+    contains impossible prices, it is capped at 40.</p>
+
+  <h2>What a report is not</h2>
+  <div class="note">A backtest describes the past under stated assumptions. It is not a forecast and not investment advice.
+    We test the past, not the future.</div>
+</main>
+<footer id="foot"></footer>
+<script src="assets/langs.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
