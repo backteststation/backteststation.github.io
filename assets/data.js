@@ -711,5 +711,43 @@ window.SHOWCASE = [
   "report": "reports/godstranew.pdf"
  }
 ];
-window.REVIEWS = {"count": 0, "reviews": []};
-window.VERIFY = {};
+window.REVIEWS = {
+ "count": 1,
+ "average": 5.0,
+ "reviews": []
+};
+window.VERIFY = {
+ "C-2": {
+  "code": "c4481393",
+  "date": "2026-11-07",
+  "kind": "trades",
+  "name": "Anonymous",
+  "verdict": "FAIL",
+  "score": 8,
+  "confidence": 99.0,
+  "label": "Unverifiable: impossible prices",
+  "trades": 12,
+  "period": [
+   "2026-09-02",
+   "2026-09-29"
+  ],
+  "claimed": -90.97,
+  "verified": -192.58
+ },
+ "C-3": {
+  "code": "538975a7",
+  "date": "2026-11-07",
+  "kind": "freqtrade",
+  "name": "Anonymous",
+  "verdict": "FAIL",
+  "score": 4,
+  "confidence": 99.0,
+  "label": "No edge found in this test",
+  "trades": 56,
+  "period": [
+   "2026-08-09",
+   "2026-11-07"
+  ],
+  "return": -3.49
+ }
+};
