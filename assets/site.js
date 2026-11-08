@@ -19,7 +19,8 @@
   } catch (e) {}
   var BOT = ref ? BOTBASE + "?start=ref_" + ref : BOTBASE;
   var PAGES = [["index.html", "Home"], ["showcase.html", "Showcase"], ["pricing.html", "Pricing"],
-               ["guides.html", "Guides"], ["methodology.html", "Methodology"], ["faq.html", "FAQ"], ["verify.html", "Verify"]];
+               ["guides.html", "Guides"], ["methodology.html", "Methodology"], ["faq.html", "FAQ"], ["verify.html", "Verify"],
+               ["pay.html", "Pay"]];
   var here = location.pathname.split("/").pop() || "index.html";
   var logo = '<img class="logo" src="' + UP + 'assets/logo.svg" alt="" width="30" height="30">';
 

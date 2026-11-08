@@ -206,3 +206,4 @@ footer { border-top: 1px solid var(--line); margin-top: 48px; padding-block: 28p
 footer .wrap { display: grid; gap: 12px; }
 footer .row { display: flex; gap: 16px; flex-wrap: wrap; }
 footer .slogan { color: var(--text); font-weight: 700; }
+.paybar { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0 16px; }
