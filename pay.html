@@ -3,69 +3,83 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pay with Crypto</title>
-<meta name="description" content="Pay for extra Backtest Station tests in USDT or TON on the TON network.">
+<title>Pay with USDT</title>
+<meta name="description" content="Buy extra Backtest Station tests with USDT on the TON network. Your tests unlock in our Telegram bot.">
 <meta name="robots" content="noindex">
 <link rel="canonical" href="https://backteststation.github.io/pay.html">
 <meta name="theme-color" content="#0f2152">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/style.css">
 <style>
-  .pay, .pay #form:not([hidden]) { display: grid; gap: 16px; max-width: 640px; }
-  .pay .tabs { display: flex; gap: 8px; }
-  .pay .tabs button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
-    color: var(--text); font: inherit; font-weight: 600; cursor: pointer; }
-  .pay .tabs button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
+  .pay { display: grid; gap: 16px; max-width: 640px; }
   .pay .box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
     display: grid; gap: 14px; }
   .pay .row { display: grid; gap: 4px; min-width: 0; }
-  .pay .row b { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .pay .row > b, .pay label { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 700; }
   .pay .val { display: flex; gap: 8px; align-items: center; min-width: 0; }
   .pay code { overflow-wrap: anywhere; font-size: .95rem; background: var(--surface-2); padding: 6px 8px; border-radius: 8px;
     flex: 1; min-width: 0; }
+  .pay input { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); width: 100%; }
+  .pay input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .pay .packs { display: flex; gap: 8px; }
+  .pay .packs button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); font: inherit; font-weight: 600; cursor: pointer; }
+  .pay .packs button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--accent-ink); }
   .pay .copy { padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface);
     color: var(--text); font: inherit; font-size: .85rem; cursor: pointer; }
   .pay .qr { justify-self: center; background: #fff; padding: 10px; border-radius: 12px; line-height: 0; }
   .pay .amount { font-size: 1.6rem; font-weight: 700; }
   .pay .warn { background: var(--mid-bg); border-radius: 10px; padding: 10px 12px; font-size: .9rem; }
+  .pay .err { color: var(--bad); font-size: .9rem; }
   .pay .btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pay ol { margin: 0; padding-inline-start: 20px; }
 </style>
 </head>
 <body>
 <header id="top"></header>
 <main class="wrap">
   <div class="page-head">
-    <h1>Pay with crypto</h1>
-    <p>Extra tests at our launch price, paid in <b>USDT</b> or <b>TON</b> on the TON network. Your tests unlock in our
-      Telegram bot a few minutes after the payment arrives.</p>
+    <h1>Pay with USDT</h1>
+    <p>Extra tests at our launch price, paid in <b>USDT on the TON network</b>. The tests are added to your account in our
+      Telegram bot a few minutes after the payment arrives. In the bot itself you can also pay with Telegram Stars.</p>
   </div>
   <section class="pay" id="pay">
-    <p id="nocode" hidden>This page needs a payment code. Open <a href="https://t.me/BacktestStationBot">our Telegram bot</a>,
-      go to <b>Pricing</b> and choose a crypto option: the bot gives you a code and a link back here.</p>
-    <div id="form" hidden>
-      <div class="tabs" role="group" aria-label="Currency">
-        <button type="button" data-cur="USDT" aria-pressed="true">USDT</button>
-        <button type="button" data-cur="TON" aria-pressed="false">TON</button>
+    <div class="box">
+      <div class="row">
+        <label for="who">1. Your account ID or @username</label>
+        <input id="who" inputmode="text" autocomplete="off" placeholder="e.g. 123456789 or @yourname">
+        <span class="muted small">Your account ID is in the bot: open <a data-bot href="https://t.me/BacktestStationBot">@BacktestStationBot</a>
+          → 👤 <b>My account</b>. Start the bot once before paying, so we know your account.</span>
+        <span class="err" id="err" hidden>Enter your numeric account ID or your Telegram @username.</span>
       </div>
-      <div class="box">
-        <div class="row"><b>Amount</b><div class="amount" id="amt"></div></div>
-        <div class="row"><b>Send to (TON network)</b><div class="val"><code id="addr"></code>
-          <button class="copy" type="button" data-copy="addr">Copy</button></div></div>
-        <div class="row"><b>Comment / memo (required)</b><div class="val"><code id="code"></code>
-          <button class="copy" type="button" data-copy="code">Copy</button></div></div>
-        <div class="warn">Put the code in the <b>comment</b> of the transfer, so the payment is matched to you automatically.
-          Forgot it? In the bot tap <b>🧾 I paid without the code</b> and send the transaction hash.
-          Use the <b>TON network</b> only; USDT on other networks (TRON, Ethereum, BNB) sent here is lost.</div>
-        <div class="qr" id="qr"></div>
-        <div class="btns">
-          <a class="btn" id="open-tk">Open in Tonkeeper</a>
-          <a class="btn ghost" id="open-ton">Open in another TON wallet</a>
+      <div class="row">
+        <b>2. Package</b>
+        <div class="packs" role="group" aria-label="Package">
+          <button type="button" data-n="1" data-usd="1" aria-pressed="true">1 test · $1</button>
+          <button type="button" data-n="5" data-usd="4" aria-pressed="false">5 tests · $4</button>
         </div>
       </div>
-      <p class="muted small">After paying, go back to the bot; it tells you when the tests are unlocked, usually within a few
-        minutes. The code is valid for 3 days. Payments are non-refundable; a paid test we could not run stays on your account.
-        Problem? Write <b>/paysupport</b> in the bot.</p>
     </div>
+
+    <div class="box" id="send" hidden>
+      <div class="row"><b>3. Send</b><div class="amount" id="amt"></div></div>
+      <div class="row"><b>To (TON network)</b><div class="val"><code id="addr"></code>
+        <button class="copy" type="button" data-copy="addr">Copy</button></div></div>
+      <div class="row"><b>Comment / memo (required)</b><div class="val"><code id="memo"></code>
+        <button class="copy" type="button" data-copy="memo">Copy</button></div></div>
+      <div class="warn">The comment tells us which account to credit. Use the <b>TON network</b> only; USDT sent on other
+        networks (TRON, Ethereum, BNB) is lost. Any amount works: every $4 gives 5 tests, every further $1 one test.</div>
+      <div class="qr" id="qr"></div>
+      <div class="btns">
+        <a class="btn" id="open-tk">Open in Tonkeeper</a>
+        <a class="btn ghost" id="open-ton">Open in another TON wallet</a>
+      </div>
+    </div>
+
+    <p class="muted small">After paying, the bot tells you when the tests are added, usually within a few minutes.
+      Forgot the comment, or it did not arrive? Write <b>/paysupport</b> in the bot and send the transaction hash; the bot checks
+      it on the network at once. A test we cannot deliver stays on your account.</p>
   </section>
 </main>
 <footer id="foot"></footer>
@@ -74,33 +88,41 @@
 (function () {
   var WALLET = "UQCeWGmBTdD31zf47aDlb-iQreaqJblx98ihAdj87cEzPNHW";
   var USDT = "EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs";
-  var p = new URLSearchParams(location.search);
-  var code = (p.get("c") || "").toUpperCase(), usd = parseFloat(p.get("u")), ton = parseFloat(p.get("t")), n = p.get("n");
-  if (!/^BT[A-Z2-9]{5}$/.test(code) || !(usd > 0)) { document.getElementById("nocode").hidden = false; return; }
-  document.getElementById("form").hidden = false;
+  var who = document.getElementById("who"), err = document.getElementById("err"), send = document.getElementById("send");
+  var usd = 1, n = 1;
   document.getElementById("addr").textContent = WALLET;
-  document.getElementById("code").textContent = code;
-  var tonBtn = document.querySelector('[data-cur="TON"]');
-  if (!(ton > 0)) tonBtn.disabled = true;
-  var qr = null;
-  function show(cur) {
-    document.querySelectorAll(".tabs button").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.cur === cur); });
-    var q, amt;
-    if (cur === "USDT") {
-      amt = usd + " USDT";
-      q = "transfer/" + WALLET + "?jetton=" + USDT + "&amount=" + Math.round(usd * 1e6) + "&text=" + code;
-    } else {
-      amt = ton.toFixed(2) + " TON";
-      q = "transfer/" + WALLET + "?amount=" + Math.round(ton * 1e9) + "&text=" + code;
-    }
-    document.getElementById("amt").textContent = amt + (n ? " · " + n + (n === "1" ? " test" : " tests") : "");
+  try { var saved = localStorage.getItem("bt_who"); if (saved) who.value = saved; } catch (e) {}
+  var q0 = new URLSearchParams(location.search).get("id");
+  if (q0) who.value = q0;
+
+  function memo() {
+    var v = who.value.trim().replace(/\s+/g, "");
+    if (/^\d{5,15}$/.test(v)) return "TG" + v;
+    if (/^@?[A-Za-z][A-Za-z0-9_]{4,31}$/.test(v)) return "@" + v.replace(/^@/, "");
+    return null;
+  }
+  function render() {
+    var m = memo();
+    err.hidden = !who.value.trim() || !!m;
+    send.hidden = !m;
+    if (!m) return;
+    try { localStorage.setItem("bt_who", who.value.trim()); } catch (e) {}
+    document.getElementById("memo").textContent = m;
+    document.getElementById("amt").textContent = usd + " USDT · " + n + (n === 1 ? " test" : " tests");
+    var q = "transfer/" + WALLET + "?jetton=" + USDT + "&amount=" + Math.round(usd * 1e6) + "&text=" + encodeURIComponent(m);
     document.getElementById("open-tk").href = "https://app.tonkeeper.com/" + q;
     document.getElementById("open-ton").href = "ton://" + q;
     var box = document.getElementById("qr");
     box.innerHTML = "";
-    if (window.QRCode) qr = new QRCode(box, { text: "ton://" + q, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
+    if (window.QRCode) new QRCode(box, { text: "ton://" + q, width: 200, height: 200, correctLevel: QRCode.CorrectLevel.M });
   }
-  document.querySelectorAll(".tabs button").forEach(function (b) { b.onclick = function () { show(b.dataset.cur); }; });
+  who.addEventListener("input", render);
+  document.querySelectorAll(".packs button").forEach(function (b) {
+    b.onclick = function () {
+      document.querySelectorAll(".packs button").forEach(function (x) { x.setAttribute("aria-pressed", x === b); });
+      usd = parseFloat(b.dataset.usd); n = parseInt(b.dataset.n, 10); render();
+    };
+  });
   document.querySelectorAll(".copy").forEach(function (b) {
     b.onclick = function () {
       var t = document.getElementById(b.dataset.copy).textContent;
@@ -112,7 +134,7 @@
       });
     };
   });
-  show("USDT");
+  render();
 })();
 </script>
 <script src="assets/langs.js"></script>
