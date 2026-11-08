@@ -46,8 +46,10 @@
   <h2>Track-record checks</h2>
   <div class="box"><ul class="muted">
     <li>Each entry and exit is compared with the real 1-minute candle, and with 1-second candles when available.</li>
-    <li>A price outside the candle's range is marked impossible. A price that only fits a minute or two earlier or later is
-      marked as a timing difference. Time-zone shifts are detected automatically.</li>
+    <li>Each exchange and broker has slightly different prices, so we allow a margin: 0.15% around Binance for crypto and
+      0.05% around Dukascopy's bid/ask for Forex. A price outside that is marked "not consistent with the reference data",
+      a reason to ask questions rather than proof of fraud. A price that only fits a minute or two earlier or later is
+      marked as a timing difference. Broker time zones (such as GMT+2 or GMT+3) are detected automatically.</li>
     <li>Profit is recalculated with taker fees and, for futures, the real funding payments.</li>
   </ul></div>
 
@@ -60,8 +62,9 @@
     <tr><td>Beating the market</td><td>15%</td><td>Doing better than simply holding the same coins</td></tr>
     <tr><td>Sample size</td><td>15%</td><td>Enough trades to tell skill from luck (200+)</td></tr>
   </table></div>
-  <p class="muted" style="margin-top:12px">If the lookahead check finds future data, the score is capped at 30. If a trade history
-    contains impossible prices, it is capped at 40.</p>
+  <p class="muted" style="margin-top:12px">If the lookahead check finds future data, the score is capped at 30. If a few prices in a trade
+    history do not match the reference data, it is capped at 60 (CAUTION); if 10% or more of the trades do, or one price is
+    off by 2% or more, the report is a FAIL.</p>
 
   <h2>What a report is not</h2>
   <div class="note">A backtest describes the past under stated assumptions. It is not a forecast and not investment advice.
