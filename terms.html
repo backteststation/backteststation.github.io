@@ -20,7 +20,7 @@
 <body>
 <header id="top"></header>
 <main class="wrap guide">
-  <div class="page-head"><h1>Terms of service</h1><p>Last updated 3 November 2026. By ordering a test you accept these terms.</p></div>
+  <div class="page-head"><h1>Terms of service</h1><p>Last updated 9 November 2026. By ordering a test you accept these terms.</p></div>
   <article>
     <h2>1. What we provide</h2>
     <p>Backtest Station tests trading strategies, bots and trade histories against historical market data and sends a report.
@@ -36,21 +36,43 @@
       whether a result may be public, anonymous or private. We keep files, reports and account details on a best-effort basis
       for as long as we reasonably can, but we do not guarantee storage or backups: keep your own copies. You can ask us to
       delete your files and account data at any time through the bot.</p>
-    <h2>4. Fair use</h2>
+    <h2 id="files">4. Files you send</h2>
+    <p>We test only the kinds of files listed in our bot and on the <a href="guides.html">guides page</a>, sent as follows:</p>
+    <ul>
+      <li><b>Trade histories:</b> the export of the exchange, broker or bot (CSV, Excel, HTML statement or JSON), or a PDF
+        or a clear picture of the trade table with its header row.</li>
+      <li><b>Strategies:</b> one Freqtrade strategy file (.py), one TradingView Pine Script strategy, or one MetaTrader 5
+        Expert Advisor (.mq5 as a single file with its own includes merged in, or the compiled .ex5).</li>
+      <li><b>Zip files</b> only to make a file smaller, holding that one file: not a whole project, repository or program
+        (at most 200 files and 200 MB unpacked).</li>
+      <li><b>Size:</b> up to 20 MB per file, which is Telegram's limit for files sent to bots.</li>
+      <li>No exchange API keys, passwords, or other people's personal data.</li>
+    </ul>
+    <p><b>Which prices we test with.</b> Backtests and checks use Binance prices for crypto (spot for strategies, USDT-M
+      futures for trade histories) and Dukascopy bid/ask prices for Forex, metals, oil and indices. Some bots depend on the
+      data of particular exchanges and cannot be tested on one price history: arbitrage between exchanges, market making,
+      bots that need order books, funding or prices of several exchanges at the same moment, and futures strategies built
+      around one exchange's own contract. These are not backtested; their real trade history from each exchange can be
+      checked. Results on another exchange or broker can differ, and we allow for the usual difference.</p>
+    <p>We do not install or run other programs: whole bot projects, arbitrage bots and bots of other platforms are checked
+      through their trade history, not run. A file that does not follow these rules may not be tested, or may produce a report
+      that does not represent the strategy, and we are not responsible for that. If we cannot test a file at all, the test is
+      not counted: a free test stays free, and a paid test stays on your account.</p>
+    <h2>5. Fair use</h2>
     <p>Free tests are limited per Telegram account and renew every month. Several accounts used by one person to get more free tests or
       invitation rewards are not allowed, and we may cancel those tests or rewards. Do not send malware, other people's data
       or anything illegal. Never send exchange API keys or passwords.</p>
-    <h2>5. Payments and refunds</h2>
+    <h2>6. Payments and refunds</h2>
     <p>Every account gets free tests every month while we launch. Extra tests are paid before the work starts, with Telegram Stars in
       our bot or with USDT (TON network) on our website's payment page. If we cannot deliver a report, the paid test stays on
       your account for your next request. Payments are not refunded automatically: for a payment problem, open a ticket with
       /paysupport in the bot and we review it within 7 days. A result you dislike is not a reason to return a test: the test
       was done.</p>
-    <h2>6. Verification and publication</h2>
+    <h2>7. Verification and publication</h2>
     <p>Our verify page confirms that a report with that ID and code was issued by us, and shows its headline numbers. It does
       not endorse the strategy or its seller. Strategy authors can respond to a published result, and verified owners can ask
       for removal, as described on the <a href="showcase.html#authors">showcase page</a>.</p>
-    <h2>7. Changes</h2>
+    <h2>8. Changes</h2>
     <p>We may update these terms, our prices and our methods. The version on this page applies from its date. Questions:
       <a data-bot href="https://t.me/BacktestStationBot">write to us on Telegram</a>.</p>
   </article>
