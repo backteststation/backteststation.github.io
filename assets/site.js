@@ -155,9 +155,9 @@
   if (stats && DATA.length) {
     var bias = DATA.filter(function (c) { return c.lookahead === true; }).length;
     var edge = DATA.filter(function (c) { return tone(c) === "good"; }).length;
-    stats.innerHTML = '<div class="stat"><b>' + DATA.length + "</b><span>" + T("public bots tested") + "</span></div>" +
-      '<div class="stat"><b>' + bias + "</b><span>" + T("caught using future data") + "</span></div>" +
-      '<div class="stat"><b>' + edge + "</b><span>" + T("with a real edge over holding") + "</span></div>";
+    stats.innerHTML = '<div class="stat s1"><i aria-hidden="true">🤖</i><b>' + DATA.length + "</b><span>" + T("public bots tested") + "</span></div>" +
+      '<div class="stat s2"><i aria-hidden="true">🔍</i><b>' + bias + "</b><span>" + T("caught using future data") + "</span></div>" +
+      '<div class="stat s3"><i aria-hidden="true">🏆</i><b>' + edge + "</b><span>" + T("with a real edge over holding") + "</span></div>";
   }
   // Verify page: a report's QR opens verify.html?id=S-01&c=1a2b3c4d; we show what we issued under that id.
   var vf = document.getElementById("verify");
