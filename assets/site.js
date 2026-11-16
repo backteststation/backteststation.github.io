@@ -172,7 +172,7 @@
       var r = VERIFY[id];
       if (!id) { out.innerHTML = ""; return; }
       if (!r || r.code !== code) {
-        out.innerHTML = '<div class="vf vf-bad">' + T("<b>Not found.</b> We did not issue a report with this ID and code. Check both, or ask the seller for the original. A report that does not match is not ours.") + "</div>";
+        out.innerHTML = '<div class="vf vf-bad">' + T("<b>Not found.</b> We did not issue a report with this ID and code. Check both, or ask the seller for the original. A report that does not match is not ours.") + " " + T("Reports from the last day may not be listed yet; please try again tomorrow.") + "</div>";
         return;
       }
       var rows = [[T("Report"), id], [T("Issued for"), r.name], [T("Type"), r.kind], [T("Verdict"), r.verdict + " · " + T(r.label)],

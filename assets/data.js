@@ -749,5 +749,185 @@ window.VERIFY = {
    "2026-11-07"
   ],
   "return": -3.49
+ },
+ "C-4": {
+  "code": "3d2511a8",
+  "date": "2026-11-07",
+  "kind": "trades",
+  "name": "Anonymous",
+  "verdict": "FAIL",
+  "score": 8,
+  "confidence": 99.0,
+  "label": "Unverifiable: impossible prices",
+  "trades": 12,
+  "period": [
+   "2026-09-02",
+   "2026-09-29"
+  ],
+  "claimed": -90.97,
+  "verified": -192.58
+ },
+ "C-5": {
+  "code": "6e152910",
+  "date": "2026-11-07",
+  "kind": "freqtrade",
+  "name": "Anonymous",
+  "verdict": "FAIL",
+  "score": 21,
+  "confidence": 99.0,
+  "label": "No edge found in this test",
+  "trades": 83,
+  "period": [
+   "2026-10-08",
+   "2026-11-07"
+  ],
+  "return": -12.44
+ },
+ "C-6": {
+  "code": "e00f97e9",
+  "date": "2026-11-08",
+  "kind": "pine",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 30,
+  "confidence": 97.5,
+  "label": "No edge found in this test",
+  "trades": 350,
+  "period": [
+   "2026-10-09",
+   "2026-11-08"
+  ],
+  "return": -15.78
+ },
+ "C-7": {
+  "code": "e37d940b",
+  "date": "2026-11-08",
+  "kind": "trades",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 8,
+  "confidence": 99.0,
+  "label": "Prices do not match the reference data",
+  "trades": 12,
+  "period": [
+   "2026-09-02",
+   "2026-09-29"
+  ],
+  "claimed": -90.97,
+  "verified": -192.58
+ },
+ "C-8": {
+  "code": "d8d27051",
+  "date": "2026-11-08",
+  "kind": "fxtrades",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 28,
+  "confidence": 99.0,
+  "label": "Prices do not match the reference data",
+  "trades": 8,
+  "period": [
+   "2026-11-01",
+   "2026-11-02"
+  ],
+  "claimed": -613.23,
+  "verified": 129.02
+ },
+ "C-9": {
+  "code": "7386f36e",
+  "date": "2026-11-08",
+  "kind": "fxtrades",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 28,
+  "confidence": 99.0,
+  "label": "Prices do not match the reference data",
+  "trades": 8,
+  "period": [
+   "2026-11-01",
+   "2026-11-02"
+  ],
+  "claimed": -613.23,
+  "verified": 129.02
+ },
+ "C-10": {
+  "code": "bb11f019",
+  "date": "2026-11-08",
+  "kind": "freqtrade",
+  "name": "Anonymous",
+  "verdict": "FAIL",
+  "score": 15,
+  "confidence": 99.0,
+  "label": "No edge found in this test",
+  "trades": 348,
+  "period": [
+   "2026-08-10",
+   "2026-11-08"
+  ],
+  "return": -22.64
+ },
+ "C-11": {
+  "code": "c3c47dd2",
+  "date": "2026-11-08",
+  "kind": "pine",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 30,
+  "confidence": 97.5,
+  "label": "No edge found in this test",
+  "trades": 367,
+  "period": [
+   "2026-10-09",
+   "2026-11-08"
+  ],
+  "return": -2.62
+ },
+ "C-12": {
+  "code": "030b85d6",
+  "date": "2026-11-08",
+  "kind": "freqtrade",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 9,
+  "confidence": 99.0,
+  "label": "No edge found in this test",
+  "trades": 118,
+  "period": [
+   "2026-10-09",
+   "2026-11-08"
+  ],
+  "return": -22.58
+ },
+ "C-13": {
+  "code": "31f36c00",
+  "date": "2026-11-08",
+  "kind": "forex",
+  "name": "Private client",
+  "verdict": "FAIL",
+  "score": 15,
+  "confidence": 97.5,
+  "label": "No edge found in this test",
+  "trades": 1,
+  "period": [
+   "2026-08-10",
+   "2026-11-08"
+  ],
+  "return": -0.31
+ },
+ "C-14": {
+  "code": "a422e255",
+  "date": "2026-11-08",
+  "kind": "forex",
+  "name": "Private client",
+  "verdict": "CAUTION",
+  "score": 41,
+  "confidence": 97.5,
+  "label": "Inconclusive",
+  "trades": 22,
+  "period": [
+   "2026-10-09",
+   "2026-11-08"
+  ],
+  "return": 0.11
  }
 };
