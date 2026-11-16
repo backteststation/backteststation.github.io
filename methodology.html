@@ -42,8 +42,10 @@
       rules. TradingView Pine Script strategies run in our own Pine engine, on crypto or Forex. MetaTrader 5 Expert Advisors run
       in MetaTrader 5's own Strategy Tester, offline and without DLLs, on Dukascopy bid/ask prices with spread, commission and
       swaps.</li>
-    <li>For Freqtrade strategies, drawdown is measured on closed trades, as Freqtrade reports it: dips while a trade is still open are not counted, so
-      a strategy that never closes a trade at a loss shows 0%.</li>
+    <li>Drawdown: the account's largest fall, with open trades valued at each candle's worst price, so a strategy that
+      sits on losing trades cannot hide them. The optimistic / normal / pessimistic table shows the closed-trade figure of
+      each case. Showcase results show Freqtrade's closed-trade drawdown, so a strategy that never closed a trade at a
+      loss shows 0% there.</li>
     <li>Account: 1,000 USDT, up to 5 trades at once, unless the customer asks for something else.</li>
     <li>Fees: 0.1% per side (Binance spot taker), plus a stress test at double fees.</li>
     <li>Lookahead check: Freqtrade's lookahead analysis re-runs signals with future candles hidden. If the signals change,
