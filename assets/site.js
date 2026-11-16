@@ -167,6 +167,8 @@
       if (c.id) VERIFY[c.id] = { code: c.code, verdict: c.verdict, score: c.score, label: c.label, name: c.name, confidence: c.confidence,
         kind: "Showcase · " + c.kind, period: c.period, ret: c.return, trades: c.trades, report: c.report };
     });
+    var KINDS = { trades: "Track-record check (crypto)", fxtrades: "Track-record check (Forex)",
+      freqtrade: "Backtest: Freqtrade strategy", pine: "Backtest: Pine Script strategy", forex: "Backtest: MetaTrader 5 EA" };
     var check = function (id, code) {
       id = (id || "").trim().toUpperCase(); code = (code || "").trim().toLowerCase();
       var r = VERIFY[id];
@@ -175,7 +177,7 @@
         out.innerHTML = '<div class="vf vf-bad">' + T("<b>Not found.</b> We did not issue a report with this ID and code. Check both, or ask the seller for the original. A report that does not match is not ours.") + " " + T("Reports from the last day may not be listed yet; please try again tomorrow.") + "</div>";
         return;
       }
-      var rows = [[T("Report"), id], [T("Issued for"), r.name], [T("Type"), r.kind], [T("Verdict"), r.verdict + " · " + T(r.label)],
+      var rows = [[T("Report"), id], [T("Issued for"), T(r.name)], [T("Type"), KINDS[r.kind] ? T(KINDS[r.kind]) : r.kind], [T("Verdict"), r.verdict + " · " + T(r.label)],
         ["Edge Score", r.score + " / 100"]];
       if (r.confidence) rows.push([T("Test confidence"), r.confidence.toFixed(1) + "%"]);
       if (r.period) rows.push([T("Period tested"), r.period[0] + " … " + r.period[1]]);
@@ -186,6 +188,7 @@
       out.innerHTML = '<div class="vf vf-ok">' + T("<b>✓ Genuine.</b> This report was issued by Backtest Station. Compare these numbers with the PDF you were shown; they must be the same.") + "</div>" +
         '<div class="tbl-wrap"><table class="tbl">' +
         rows.map(function (x) { return "<tr><th>" + esc(x[0]) + "</th><td>" + esc(x[1]) + "</td></tr>"; }).join("") + "</table></div>" +
+        (r.kind === "freqtrade" ? '<p class="muted small">' + T("Freqtrade strategies run their own Python code inside the backtest (isolated from our systems), so these figures are what that code produced in our test.") + "</p>" : "") +
         (r.report ? '<p><a class="btn sm" href="' + UP + esc(r.report) + '">' + T("Open our copy (PDF)") + "</a></p>" : "");
     };
     var q = new URLSearchParams(location.search);
