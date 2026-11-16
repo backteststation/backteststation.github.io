@@ -4,7 +4,7 @@
   var LANG = window.LANG || "en";
   var UP = LANG === "en" ? "" : "../";                       // translated pages sit one folder down
   var TRANSLATED = window.I18N_PAGES || [];
-  function T(s) { return (window.UI && window.UI[s]) || s; }
+  function T(s) { return (window.UI && Object.prototype.hasOwnProperty.call(window.UI, s) && window.UI[s]) || s; }
   function page(p) {                                         // link to a page in this language when it exists
     var file = p.split("#")[0];
     return LANG === "en" || TRANSLATED.indexOf(file) >= 0 ? p : "../" + p;
@@ -177,11 +177,13 @@
         out.innerHTML = '<div class="vf vf-bad">' + T("<b>Not found.</b> We did not issue a report with this ID and code. Check both, or ask the seller for the original. A report that does not match is not ours.") + " " + T("Reports from the last day may not be listed yet; please try again tomorrow.") + "</div>";
         return;
       }
-      var rows = [[T("Report"), id], [T("Issued for"), T(r.name)], [T("Type"), KINDS[r.kind] ? T(KINDS[r.kind]) : r.kind], [T("Verdict"), r.verdict + " · " + T(r.label)],
+      var rows = [[T("Report"), id], [T("Issued for"), (r.name === "Private client" || r.name === "Anonymous") ? T(r.name) : r.name], [T("Type"), KINDS[r.kind] ? T(KINDS[r.kind]) : r.kind], [T("Verdict"), r.verdict + " · " + T(r.label)],
         ["Edge Score", r.score + " / 100"]];
       if (r.confidence) rows.push([T("Test confidence"), r.confidence.toFixed(1) + "%"]);
       if (r.period) rows.push([T("Period tested"), r.period[0] + " … " + r.period[1]]);
       if (r.ret !== undefined) rows.push([T("Return"), pct(r.ret)]);
+      else if (typeof r["return"] === "number")            // customer reports store it in percent already
+        rows.push([T("Return"), (r["return"] > 0 ? "+" : "") + r["return"].toFixed(1) + "%"]);
       if (r.claimed !== undefined) rows.push([T("Claimed / verified PnL"), r.claimed + " / " + r.verified + " USDT"]);
       if (r.trades) rows.push([T("Trades"), r.trades]);
       if (r.date) rows.push([T("Delivered"), r.date]);
