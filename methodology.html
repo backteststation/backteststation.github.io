@@ -28,14 +28,22 @@
   <h2>Data</h2>
   <div class="grid g2">
     <div class="box"><h3>Binance history</h3><p class="muted">Futures 1-minute candles since 2020, funding rates and premium index for 40+
-      coins from Binance's public archive, topped up every 30 minutes. Spot candles at 5m to 1d for strategy backtests.</p></div>
+      coins from Binance's public archive, topped up every 30 minutes. Spot candles at 5m to 1d for strategy backtests, and 1-second candles for Freqtrade tests of up to 1 month.</p></div>
     <div class="box"><h3>Second-level prices</h3><p class="muted">For the last three months we also keep 1-second spot candles, so a claimed
       trade can be checked against the exact second it was supposedly filled.</p></div>
+    <div class="box"><h3>Forex, metals, oil and indices</h3><p class="muted">Dukascopy bid and ask prices since January 2023:
+      Forex majors and crosses, gold, silver, WTI and Brent oil, US500, NAS100, US30 and GER40. Used for Forex trade histories,
+      Pine Script runs on Forex and MetaTrader 5 Expert Advisors (10 Forex pairs, gold and silver).</p></div>
   </div>
 
   <h2>Strategy backtests</h2>
   <div class="box"><ul class="muted">
-    <li>Engine: Freqtrade backtesting, using the strategy's own ROI, stop-loss and exit rules.</li>
+    <li>Engines: Freqtrade strategies run in Freqtrade's own backtester, with the strategy's own ROI, stop-loss and exit
+      rules. TradingView Pine Script strategies run in our own Pine engine, on crypto or Forex. MetaTrader 5 Expert Advisors run
+      in MetaTrader 5's own Strategy Tester, offline and without DLLs, on Dukascopy bid/ask prices with spread, commission and
+      swaps.</li>
+    <li>For Freqtrade strategies, drawdown is measured on closed trades, as Freqtrade reports it: dips while a trade is still open are not counted, so
+      a strategy that never closes a trade at a loss shows 0%.</li>
     <li>Account: 1,000 USDT, up to 5 trades at once, unless the customer asks for something else.</li>
     <li>Fees: 0.1% per side (Binance spot taker), plus a stress test at double fees.</li>
     <li>Lookahead check: Freqtrade's lookahead analysis re-runs signals with future candles hidden. If the signals change,

@@ -140,7 +140,8 @@
       '<div class="metrics">' +
       '<div class="metric"><small>' + T("Strategy return") + '</small><b class="' + cls(c.return) + '">' + pct(c.return) + "</b></div>" +
       '<div class="metric"><small>' + T("Holding the same coins") + '</small><b class="' + cls(c.market) + '">' + pct(c.market) + "</b></div>" +
-      '<div class="metric"><small>' + T("Max drawdown") + "</small><b>" + (100 * c.max_dd).toFixed(1) + "%</b></div>" +
+      '<div class="metric"><small>' + T("Max drawdown") + "</small><b>" + (100 * c.max_dd).toFixed(1) + "%</b>" +
+        (c.max_dd === 0 && c.trades ? "<small>" + T("no trade closed at a loss") + "</small>" : "") + "</div>" +
       '<div class="metric"><small>' + T("Trades") + "</small><b>" + c.trades.toLocaleString("en-US") + "</b></div></div>" +
       (c.scenarios && c.scenarios.length === 3 ? '<div class="range small muted">' + T("Usual range") + ": " + pct(c.scenarios[2].ret) +
         " … " + pct(c.scenarios[0].ret) + (c.confidence ? " · " + T("Test confidence") + " " + c.confidence.toFixed(1) + "%" : "") +
@@ -216,6 +217,8 @@
         "<blockquote>" + esc(r.comment) + "</blockquote><figcaption>— " + esc(r.name) + "</figcaption></figure>";
     }).join("");
     rv.innerHTML = head + (items ? '<div class="rv-list">' + items + "</div>" : "") + rate;
+    var rvh = rv.previousElementSibling;
+    if (!items && rvh && rvh.tagName === "H2") rvh.textContent = T("How are we doing?");
   }
 
   var list = document.getElementById("cards");
