@@ -21,28 +21,39 @@
 <header id="top"></header>
 <main class="wrap">
   <div class="page-head">
-    <h1>Free community strategies, tested as-is</h1>
-    <p>These are popular open-source bots that anyone can download for free, run with their default settings on 20 coins on
-      Binance spot. Most free strategies are written as examples, not as finished products, and the numbers show why testing
-      matters.</p>
+    <h1>Strategies tested as-is: crypto, Forex, gold and oil</h1>
+    <p>Popular free crypto bots and classic Forex and gold strategies, run with their default settings. Most free strategies
+      are written as examples, not as finished products, and the numbers show why testing matters.
+      <a href="#forex">Jump to Forex, gold, oil and indices →</a></p>
   </div>
   <div id="stats" class="stats"></div>
   <div class="note" style="margin-bottom:24px"><b>Your own bot is different.</b> Paid, private or tuned strategies are exactly what we
     are here for. Send yours and find out where it stands, before you trust it with real money.
     <a data-bot href="https://t.me/BacktestStationBot">Test your own bot free →</a></div>
 
-  <div id="cards" class="cards"></div>
+  <h2 id="crypto">Crypto: free community bots</h2>
+  <p class="muted">Popular open-source Freqtrade bots that anyone can download for free, run with their default settings on
+    20 coins on Binance spot.</p>
+  <div id="cards" class="cards" data-market="crypto"></div>
+
+  <h2 id="forex">Forex, gold, oil and indices</h2>
+  <p class="muted">Classic strategies of the kind sold as MetaTrader EAs and TradingView scripts. We wrote these ourselves and
+    publish their source, so you can see exactly what was tested. Each runs the same way as a customer's file: EAs in
+    MetaTrader 5's own Strategy Tester, Pine Script in our Pine engine, on Dukascopy bid/ask prices with real spreads and a
+    7 USD per lot commission. Each report explains the strategy's logic in plain words, as yours would.</p>
+  <div id="cards-fx" class="cards" data-market="fx"></div>
 
   <h2>How to read a card</h2>
   <div class="grid g2">
     <div class="box"><h3>Edge Score (0–100)</h3><p class="muted">Combines profit after fees, consistency across years, drawdown, number
-      of trades and whether the strategy beat simply holding the same coins. <a href="methodology.html">Full method</a>.</p></div>
+      of trades and whether the strategy beat simply holding the same coins or symbols. <a href="methodology.html">Full method</a>.</p></div>
     <div class="box"><h3>Labels</h3><p class="muted"><span class="badge b-good">Edge found</span> 70+ ·
       <span class="badge b-mid">Inconclusive</span> 40–69 · <span class="badge b-bad">No edge found in this test</span> under 40 ·
       <span class="badge b-bias">Lookahead bias detected</span> the backtest relies on future data.</p></div>
   </div>
-  <p class="muted small" style="margin-top:16px">All tests: 1,000 USDT, up to 5 trades at once, 0.1% fee per side, Binance spot data.
-    Results describe one set of settings over one period. Other settings, coins or periods can give different results. Nothing
+  <p class="muted small" style="margin-top:16px">Crypto tests: 1,000 USDT, up to 5 trades at once, 0.1% fee per side, Binance spot
+    data. Forex tests: 10,000 USD per symbol for EAs (leverage 1:100, the EA's own lot size) or 1,000 USD for Pine Script,
+    Dukascopy bid/ask data, real spreads plus 7 USD per lot. Results describe one set of settings over one period. Other settings, coins or periods can give different results. Nothing
     here is a recommendation to use or avoid any strategy.</p>
 
   <h2 id="authors">For strategy authors</h2>

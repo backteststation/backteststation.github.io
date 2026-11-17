@@ -1,0 +1,40 @@
+//@version=5
+// Backtest Station sample strategy, MIT licence: a classic EMA crossover trend follower with ATR stops.
+strategy("EMA trend with ATR stops", overlay=true, initial_capital=10000, default_qty_type=strategy.percent_of_equity, default_qty_value=10, commission_type=strategy.commission.percent, commission_value=0.01, pyramiding=0)
+
+// === Inputs ===
+fastLen   = input.int(21, "Fast EMA", minval=2)
+slowLen   = input.int(55, "Slow EMA", minval=5)
+trendLen  = input.int(200, "Trend EMA", minval=50)
+atrLen    = input.int(14, "ATR length")
+slMult    = input.float(1.5, "Stop loss (x ATR)", step=0.1)
+tpMult    = input.float(3.0, "Take profit (x ATR)", step=0.1)
+useShorts = input.bool(true, "Allow shorts")
+
+// === Indicators ===
+emaFast  = ta.ema(close, fastLen)
+emaSlow  = ta.ema(close, slowLen)
+emaTrend = ta.ema(close, trendLen)
+atr      = ta.atr(atrLen)
+
+plot(emaFast, "EMA fast", color=color.orange)
+plot(emaSlow, "EMA slow", color=color.blue)
+plot(emaTrend, "EMA trend", color=color.gray)
+
+// === Signals ===
+longSignal  = ta.crossover(emaFast, emaSlow) and close > emaTrend
+shortSignal = ta.crossunder(emaFast, emaSlow) and close < emaTrend
+
+if longSignal and strategy.position_size == 0
+    strategy.entry("Long", strategy.long)
+    strategy.exit("Long exit", from_entry="Long", stop=close - slMult * atr, limit=close + tpMult * atr)
+
+if useShorts and shortSignal and strategy.position_size == 0
+    strategy.entry("Short", strategy.short)
+    strategy.exit("Short exit", from_entry="Short", stop=close + slMult * atr, limit=close - tpMult * atr)
+
+// Close on opposite cross
+if strategy.position_size > 0 and ta.crossunder(emaFast, emaSlow)
+    strategy.close("Long", comment="Cross down")
+if strategy.position_size < 0 and ta.crossover(emaFast, emaSlow)
+    strategy.close("Short", comment="Cross up")

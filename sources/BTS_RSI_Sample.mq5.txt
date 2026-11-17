@@ -1,0 +1,72 @@
+//+------------------------------------------------------------------+
+//| BTS_RSI_Sample.mq5                                               |
+//| A small sample Expert Advisor for testing Backtest Station.      |
+//| Buys when RSI crosses up through 30, sells when it crosses down  |
+//| through 70. Fixed stop loss and take profit in points, one       |
+//| position at a time, fixed lot size.                              |
+//+------------------------------------------------------------------+
+#property copyright "Backtest Station sample"
+#property version   "1.00"
+#property description "RSI 30/70 sample EA with fixed stop loss and take profit"
+
+#include <Trade\Trade.mqh>
+
+input int    RsiPeriod   = 14;     // RSI period
+input double Lots        = 0.10;   // lot size
+input int    StopPoints  = 300;    // stop loss in points
+input int    TakePoints  = 450;    // take profit in points
+input ulong  Magic       = 20261109;
+
+CTrade   trade;
+int      rsi_handle = INVALID_HANDLE;
+datetime last_bar   = 0;
+
+int OnInit()
+  {
+   rsi_handle = iRSI(_Symbol, _Period, RsiPeriod, PRICE_CLOSE);
+   if(rsi_handle == INVALID_HANDLE)
+      return INIT_FAILED;
+   trade.SetExpertMagicNumber(Magic);
+   return INIT_SUCCEEDED;
+  }
+
+void OnDeinit(const int reason)
+  {
+   if(rsi_handle != INVALID_HANDLE)
+      IndicatorRelease(rsi_handle);
+  }
+
+bool HasPosition()
+  {
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+     {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket > 0 && PositionGetString(POSITION_SYMBOL) == _Symbol && PositionGetInteger(POSITION_MAGIC) == (long)Magic)
+         return true;
+     }
+   return false;
+  }
+
+void OnTick()
+  {
+   datetime bar = iTime(_Symbol, _Period, 0);
+   if(bar == last_bar)
+      return;                       // act once per new bar
+   last_bar = bar;
+
+   double rsi[];
+   if(CopyBuffer(rsi_handle, 0, 1, 2, rsi) < 2)
+      return;                       // rsi[0] = two bars ago, rsi[1] = last closed bar
+   if(HasPosition())
+      return;
+
+   double pt  = SymbolInfoDouble(_Symbol, SYMBOL_POINT);
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   int    dg  = (int)SymbolInfoInteger(_Symbol, SYMBOL_DIGITS);
+
+   if(rsi[0] < 30.0 && rsi[1] >= 30.0)
+      trade.Buy(Lots, _Symbol, ask, NormalizeDouble(ask - StopPoints * pt, dg), NormalizeDouble(ask + TakePoints * pt, dg), "rsi buy");
+   else if(rsi[0] > 70.0 && rsi[1] <= 70.0)
+      trade.Sell(Lots, _Symbol, bid, NormalizeDouble(bid + StopPoints * pt, dg), NormalizeDouble(bid - TakePoints * pt, dg), "rsi sell");
+  }

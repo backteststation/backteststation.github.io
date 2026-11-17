@@ -1,0 +1,64 @@
+//+------------------------------------------------------------------+
+//| BTS_Martingale_Grid.mq5                                          |
+//| Stress sample for Backtest Station: a martingale grid that       |
+//| doubles the lot every time price moves against it, with no stop  |
+//| loss. It usually looks great until it blows the account.         |
+//+------------------------------------------------------------------+
+#property copyright "Backtest Station sample"
+#property version   "1.00"
+#property description "Martingale grid without stop loss (stress test)"
+
+#include <Trade\Trade.mqh>
+
+input double StartLots  = 0.10;
+input double Multiplier = 2.0;
+input int    GridPoints = 200;    // add a position every 200 points against the basket
+input int    TakePoints = 150;    // close the basket at +150 points from its average price
+input ulong  Magic      = 20261111;
+
+CTrade trade;
+
+int OnInit()
+  {
+   trade.SetExpertMagicNumber(Magic);
+   return INIT_SUCCEEDED;
+  }
+
+void OnTick()
+  {
+   double pt  = SymbolInfoDouble(_Symbol, SYMBOL_POINT);
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   int n = 0;
+   double vol = 0, wsum = 0, last_price = 0, last_lot = 0;
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+     {
+      ulong t = PositionGetTicket(i);
+      if(t == 0 || PositionGetInteger(POSITION_MAGIC) != (long)Magic || PositionGetString(POSITION_SYMBOL) != _Symbol)
+         continue;
+      double v = PositionGetDouble(POSITION_VOLUME), p = PositionGetDouble(POSITION_PRICE_OPEN);
+      n++; vol += v; wsum += v * p;
+      if(v > last_lot) { last_lot = v; last_price = p; }
+     }
+   if(n == 0)
+     {
+      trade.Buy(StartLots, _Symbol, ask, 0, 0, "grid start");
+      return;
+     }
+   double avg = wsum / vol;
+   if(bid >= avg + TakePoints * pt)
+     {
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+        {
+         ulong t = PositionGetTicket(i);
+         if(t > 0 && PositionGetInteger(POSITION_MAGIC) == (long)Magic && PositionGetString(POSITION_SYMBOL) == _Symbol)
+            trade.PositionClose(t);
+        }
+      return;
+     }
+   if(ask <= last_price - GridPoints * pt)
+     {
+      double lot = NormalizeDouble(last_lot * Multiplier, 2);
+      trade.Buy(lot, _Symbol, ask, 0, 0, "grid add");
+     }
+  }

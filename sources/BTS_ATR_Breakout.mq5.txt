@@ -1,0 +1,100 @@
+//+------------------------------------------------------------------+
+//| BTS_ATR_Breakout.mq5                                             |
+//| Sample Expert Advisor for testing Backtest Station.              |
+//| Donchian breakout: buys a close above the highest high of the    |
+//| last N bars, sells a close below the lowest low. Stop loss and   |
+//| take profit are multiples of ATR, so it suits any symbol. Lot    |
+//| size risks a fixed share of the balance per trade.               |
+//+------------------------------------------------------------------+
+#property copyright "Backtest Station sample"
+#property version   "1.00"
+#property description "Donchian breakout with ATR stops and risk-based lot size"
+
+#include <Trade\Trade.mqh>
+
+input int    Channel    = 20;     // breakout channel (bars)
+input int    AtrPeriod  = 14;     // ATR period
+input double StopAtr    = 2.0;    // stop loss = ATR x this
+input double TakeAtr    = 3.0;    // take profit = ATR x this
+input double RiskPct    = 1.0;    // risk per trade, % of balance
+input ulong  Magic      = 20261110;
+
+CTrade   trade;
+int      atr_handle = INVALID_HANDLE;
+datetime last_bar   = 0;
+
+int OnInit()
+  {
+   atr_handle = iATR(_Symbol, _Period, AtrPeriod);
+   if(atr_handle == INVALID_HANDLE)
+      return INIT_FAILED;
+   trade.SetExpertMagicNumber(Magic);
+   return INIT_SUCCEEDED;
+  }
+
+void OnDeinit(const int reason)
+  {
+   if(atr_handle != INVALID_HANDLE)
+      IndicatorRelease(atr_handle);
+  }
+
+bool HasPosition()
+  {
+   for(int i = PositionsTotal() - 1; i >= 0; i--)
+     {
+      ulong ticket = PositionGetTicket(i);
+      if(ticket > 0 && PositionGetString(POSITION_SYMBOL) == _Symbol && PositionGetInteger(POSITION_MAGIC) == (long)Magic)
+         return true;
+     }
+   return false;
+  }
+
+double LotsFor(double stop_distance)
+  {
+   double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
+   double tick_size  = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   double step       = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
+   double vmin       = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
+   double vmax       = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
+   if(tick_value <= 0 || tick_size <= 0 || stop_distance <= 0 || step <= 0)
+      return vmin;
+   double risk = AccountInfoDouble(ACCOUNT_BALANCE) * RiskPct / 100.0;
+   double lots = risk / (stop_distance / tick_size * tick_value);
+   lots = MathFloor(lots / step) * step;
+   return MathMax(vmin, MathMin(vmax, lots));
+  }
+
+void OnTick()
+  {
+   datetime bar = iTime(_Symbol, _Period, 0);
+   if(bar == last_bar)
+      return;                         // act once per new bar
+   last_bar = bar;
+   if(HasPosition())
+      return;
+
+   double atr[];
+   if(CopyBuffer(atr_handle, 0, 1, 1, atr) < 1)
+      return;
+   int hi = iHighest(_Symbol, _Period, MODE_HIGH, Channel, 2);
+   int lo = iLowest(_Symbol, _Period, MODE_LOW, Channel, 2);
+   if(hi < 0 || lo < 0)
+      return;
+   double top    = iHigh(_Symbol, _Period, hi);
+   double bottom = iLow(_Symbol, _Period, lo);
+   double close1 = iClose(_Symbol, _Period, 1);
+   int    dg     = (int)SymbolInfoInteger(_Symbol, SYMBOL_DIGITS);
+   double sl_d   = atr[0] * StopAtr;
+   double tp_d   = atr[0] * TakeAtr;
+
+   if(close1 > top)
+     {
+      double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+      trade.Buy(LotsFor(sl_d), _Symbol, ask, NormalizeDouble(ask - sl_d, dg), NormalizeDouble(ask + tp_d, dg), "breakout buy");
+     }
+   else if(close1 < bottom)
+     {
+      double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+      trade.Sell(LotsFor(sl_d), _Symbol, bid, NormalizeDouble(bid + sl_d, dg), NormalizeDouble(bid - tp_d, dg), "breakout sell");
+     }
+  }

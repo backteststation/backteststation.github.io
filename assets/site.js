@@ -130,16 +130,17 @@
     return m >= 24 ? T("{n} years").replace("{n}", Math.round(m / 12)) : T("{n} months").replace("{n}", m);
   }
   function card(c, feature) {
+    var fx = c.market_kind === "fx";
     var t = tone(c), ribbon = t === "good" ? T("Best result") : t === "bias" ? T("Caught: uses future data") : "";
     return '<article class="card' + (feature && ribbon ? " feature" : "") + '">' +
       (ribbon ? '<div class="ribbon">' + ribbon + "</div>" : "") +
-      '<div class="head"><div><h3>' + esc(c.name) + '</h3><div class="tag">' + T("Free open-source · default settings") + " · " +
-      months(c) + '</div><span class="badge b-' + t + '">' + (c.verdict ? esc(c.verdict) + " · " : "") + esc(T(c.label)) +
+      '<div class="head"><div><h3>' + esc(c.name) + '</h3><div class="tag">' + (fx ? T("Classic strategy · our open code") : T("Free open-source · default settings")) +
+      " · " + months(c) + (fx && c.symbols ? " · " + esc(c.symbols.join(", ")) : "") + '</div><span class="badge b-' + t + '">' + (c.verdict ? esc(c.verdict) + " · " : "") + esc(T(c.label)) +
       "</span></div>" +
       '<div class="score b-' + t + '" title="Edge Score">' + c.score + "</div></div>" +
       '<div class="metrics">' +
       '<div class="metric"><small>' + T("Strategy return") + '</small><b class="' + cls(c.return) + '">' + pct(c.return) + "</b></div>" +
-      '<div class="metric"><small>' + T("Holding the same coins") + '</small><b class="' + cls(c.market) + '">' + pct(c.market) + "</b></div>" +
+      '<div class="metric"><small>' + T(fx ? "Holding the same symbols" : "Holding the same coins") + '</small><b class="' + cls(c.market) + '">' + pct(c.market) + "</b></div>" +
       '<div class="metric"><small>' + T("Max drawdown") + "</small><b>" + (100 * c.max_dd).toFixed(1) + "%</b>" +
         (c.max_dd === 0 && c.trades ? "<small>" + T("no trade closed at a loss") + "</small>" : "") + "</div>" +
       '<div class="metric"><small>' + T("Trades") + "</small><b>" + c.trades.toLocaleString("en-US") + "</b></div></div>" +
@@ -221,12 +222,13 @@
     if (!items && rvh && rvh.tagName === "H2") rvh.textContent = T("How are we doing?");
   }
 
-  var list = document.getElementById("cards");
-  if (list) {
-    var limit = parseInt(list.getAttribute("data-limit") || "0", 10);
-    var cards = ordered();
+  ["cards", "cards-fx"].forEach(function (id) {             // showcase: one list per market; home page: the top few
+    var list = document.getElementById(id);
+    if (!list) return;
+    var limit = parseInt(list.getAttribute("data-limit") || "0", 10), market = list.getAttribute("data-market");
+    var cards = ordered().filter(function (c) { return !market || (c.market_kind || "crypto") === market; });
     if (limit) cards = cards.slice(0, limit);
     list.innerHTML = cards.map(function (c) { return card(c, true); }).join("") ||
       '<p class="muted">' + T("Results are being prepared.") + "</p>";
-  }
+  });
 })();
